@@ -4,9 +4,20 @@ import com.ezike.tobenna.lib_stock_price.domain.model.Stock
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
+internal interface Store {
+    suspend fun <T> getData(query: (Map<String, CacheModel>) -> T): T
+    suspend fun save(id: String, saver: (CacheModel) -> CacheModel)
+
+    companion object
+}
+
+internal val Store.Companion.Map: Store
+    get() = MapStore
+
 private object MapStore : Store {
 
     private val mutex = Mutex()
+
     private val cache = Stock.values().associate { security ->
         security.isin to CacheModel(
             name = security.name,
@@ -32,13 +43,3 @@ private object MapStore : Store {
         action: (MutableMap<String, CacheModel>) -> T
     ): T = mutex.withLock { action(cache) }
 }
-
-internal interface Store {
-    suspend fun <T> getData(query: (Map<String, CacheModel>) -> T): T
-    suspend fun save(id: String, saver: (CacheModel) -> CacheModel)
-
-    companion object
-}
-
-internal val Store.Companion.Map: Store
-    get() = MapStore

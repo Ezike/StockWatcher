@@ -9,11 +9,11 @@ internal class InMemoryCache @Inject constructor(
 ) : StockDataCache, Store by store {
 
     override suspend fun data(): List<StockData> =
-        getData { it.values.map(mapper::toStockData) }
+        getData { data -> data.values.map(mapper::toStockData) }
 
     override suspend fun findById(
         id: String
-    ): CacheModel? = getData { it[id] }
+    ): CacheModel? = getData { map -> map[id] }
 
     override suspend fun insert(cacheModel: CacheModel) {
         save(
