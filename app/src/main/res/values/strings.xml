@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Stock Watcher</string>
+    <string name="stock_watcher">Stock Watcher</string>
+    <string name="live_updates">LIVE</string>
+    <string name="last_updated_at">Last updated %s</string>
+    <string name="internet_error">An error occurred. Please check your internet connection</string>
+    <string name="connecting">Connecting …</string>
+</resources>
