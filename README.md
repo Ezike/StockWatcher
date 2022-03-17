@@ -5,8 +5,8 @@ Android project that consumes data from a websocket. Built with MVVM, Kotlin Flo
 To build this project, you require:
 - Android Studio Dolphin Canary 5
 - Gradle 7.4
-- Kotlin 1.5.31
-- Android Gradle Plugin 7.0.3
+- Kotlin 1.6.20-RC
+- Android Gradle Plugin 7.1.2
 
 <h2 align="left">Screenshots</h2>
 <h4 align="center">  
