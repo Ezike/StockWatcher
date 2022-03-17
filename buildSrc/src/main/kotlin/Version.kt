@@ -16,8 +16,7 @@ object Version {
     const val coroutines: String = "1.6.0"
 
     const val material: String = "1.6.0-alpha02"
-    const val daggerHilt: String = "2.40.5"
-    const val androidxHilt: String = "1.0.0-alpha03"
+    const val daggerHilt: String = "2.41"
 
     const val okhttp: String = "4.9.3"
     const val moshi: String = "1.13.0"

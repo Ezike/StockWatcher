@@ -15,7 +15,7 @@ subprojects project@{
     applyKtlint
     tasks.withType<KotlinCompile>().configureEach {
         with(kotlinOptions) {
-            jvmTarget = JavaVersion.VERSION_1_8.toString()
+            jvmTarget = JavaVersion.VERSION_11.toString()
             freeCompilerArgs += "-Xuse-experimental=" +
                 "kotlin.Experimental," +
                 "kotlinx.coroutines.ExperimentalCoroutinesApi," +
@@ -23,6 +23,7 @@ subprojects project@{
                 "kotlinx.coroutines.ObsoleteCoroutinesApi," +
                 "kotlinx.coroutines.FlowPreview"
             freeCompilerArgs += "-Xopt-in=kotlin.ExperimentalStdlibApi"
+            freeCompilerArgs += "-Xcontext-receivers"
         }
     }
 

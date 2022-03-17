@@ -12,9 +12,7 @@ dependencies {
         Library.coroutines,
         Library.viewModel,
         Library.activity,
-        Library.hiltViewModel,
         Library.lifecycleRuntime,
         Library.recyclerView
     )
-    kapt(Library.androidxHiltCompiler)
 }

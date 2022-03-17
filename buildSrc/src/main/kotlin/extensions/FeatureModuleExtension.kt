@@ -5,37 +5,23 @@ import BuildType.Companion.Debug
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
 
-val ProjectExtension.Companion.FeatureModule: ProjectExtension
-    get() = FeatureModuleExtension()
+val ProjectExtension.Companion.FeatureModule
+    get() = extension<LibraryExtension>("android") {
+        defaultConfig {
+            targetSdk = AppConfig.targetSdkVersion
+            minSdk = AppConfig.minSdkVersion
+            compileSdk = AppConfig.compileSdkVersion
+            consumerProguardFiles("proguard-rules.pro")
+        }
 
-private class FeatureModuleExtension : ProjectExtension {
+        buildTypes {
+            named(Debug.name) {
+                isMinifyEnabled = Debug.isMinifyEnabled
+            }
+        }
 
-    override val name: String get() = "android"
-
-    override fun configure(extension: Any) {
-        if (extension !is LibraryExtension) return
-        extension.apply {
-            androidConfig()
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_11
+            targetCompatibility = JavaVersion.VERSION_11
         }
     }
-}
-
-fun LibraryExtension.androidConfig() {
-    defaultConfig {
-        targetSdk = AppConfig.targetSdkVersion
-        minSdk = AppConfig.minSdkVersion
-        compileSdk = AppConfig.compileSdkVersion
-        consumerProguardFiles("proguard-rules.pro")
-    }
-
-    buildTypes {
-        named(Debug.name) {
-            isMinifyEnabled = Debug.isMinifyEnabled
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-}

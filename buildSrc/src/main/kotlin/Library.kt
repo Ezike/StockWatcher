@@ -16,9 +16,6 @@ object Library {
     const val hiltCore: String = "com.google.dagger:hilt-core:${Version.daggerHilt}"
     const val daggerHiltCompiler: String =
         "com.google.dagger:hilt-android-compiler:${Version.daggerHilt}"
-    const val hiltViewModel: String =
-        "androidx.hilt:hilt-lifecycle-viewmodel:${Version.androidxHilt}"
-    const val androidxHiltCompiler: String = "androidx.hilt:hilt-compiler:${Version.androidxHilt}"
 
     // coroutines
     const val coroutines: String =

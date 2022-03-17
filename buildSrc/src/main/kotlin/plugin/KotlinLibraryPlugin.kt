@@ -1,8 +1,8 @@
 package plugin
 
 import Library
-import extensions.JavaExtension
-import extensions.KotlinExtension
+import extensions.Java
+import extensions.Kotlin
 import extensions.ProjectExtension
 import implementation
 import kapt
@@ -26,8 +26,8 @@ class KotlinLibraryPlugin : BasePlugin() {
 
     override val extensions: Array<ProjectExtension>
         get() = arrayOf(
-            ProjectExtension.KotlinExtension,
-            ProjectExtension.JavaExtension
+            ProjectExtension.Kotlin,
+            ProjectExtension.Java
         )
 
     private companion object {
