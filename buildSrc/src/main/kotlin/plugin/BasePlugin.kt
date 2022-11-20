@@ -1,24 +1,29 @@
 package plugin
 
-import extensions.ProjectExtension
+import extensions.PluginExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.plugins.PluginContainer
 
 typealias PluginConfig = PluginContainer.() -> Unit
-typealias LibraryConfig = DependencyHandler.() -> Unit
+typealias DependencyConfig = DependencyHandler.() -> Unit
 
-abstract class BasePlugin : Plugin<Project> {
-
-    protected abstract val pluginConfig: PluginConfig
-    protected abstract val libraryConfig: LibraryConfig
-    protected abstract val extensions: Array<ProjectExtension>
+/**
+ * @param plugins: add gradle plugins
+ * @param dependencies: add dependencies for project
+ * @param extensions: configuration for the gradle plugins applied in [plugins]
+ */
+abstract class BasePlugin(
+    private val plugins: PluginConfig,
+    private val dependencies: DependencyConfig,
+    private val extensions: Array<PluginExtension> = emptyArray(),
+) : Plugin<Project> {
 
     override fun apply(target: Project) {
-        pluginConfig(target.plugins)
+        plugins(target.plugins)
         addExtensions(target)
-        libraryConfig(target.dependencies)
+        dependencies(target.dependencies)
     }
 
     private fun addExtensions(project: Project) {

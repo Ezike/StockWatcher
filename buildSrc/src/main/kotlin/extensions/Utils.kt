@@ -2,7 +2,7 @@ package extensions
 
 import org.gradle.api.plugins.ExtensionContainer
 
-fun ProjectExtension.config(extensionContainer: ExtensionContainer) {
+fun PluginExtension.config(extensionContainer: ExtensionContainer) {
     configure(extensionContainer.getByName(name))
 }
 
@@ -15,7 +15,7 @@ inline fun <reified T> Any.asType(action: T.() -> Unit) {
 inline fun <reified T> extension(
     name: String,
     crossinline config: T.() -> Unit
-) = object : ProjectExtension {
+) = object : PluginExtension {
     override val name: String
         get() = name
 

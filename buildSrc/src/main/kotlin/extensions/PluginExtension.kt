@@ -7,33 +7,33 @@ import org.gradle.api.plugins.JavaPluginExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
-interface ProjectExtension {
+interface PluginExtension {
     val name: String
     fun configure(extension: Any)
 
     companion object
 }
 
-val ProjectExtension.Companion.Java
+val PluginExtension.Companion.Java
     get() = extension<JavaPluginExtension>("java") {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-val ProjectExtension.Companion.Kotlin
+val PluginExtension.Companion.Kotlin
     get() = extension<KotlinJvmProjectExtension>("kotlin") {
         explicitApi()
     }
 
-val ProjectExtension.Companion.AndroidLib
+val PluginExtension.Companion.AndroidLib
     get() = extension<LibraryExtension>("android") {
-        ProjectExtension.FeatureModule.configure(this)
-        ProjectExtension.KotlinJvmExtension.config(
+        PluginExtension.FeatureModule.configure(this)
+        PluginExtension.KotlinJvmExtension.config(
             (this as ExtensionAware).extensions
         )
     }
 
-val ProjectExtension.Companion.KotlinJvmExtension
+val PluginExtension.Companion.KotlinJvmExtension
     get() = extension<KotlinJvmOptions>("kotlinOptions") {
         freeCompilerArgs += "-Xexplicit-api=strict"
     }

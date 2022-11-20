@@ -5,7 +5,7 @@ import BuildType.Companion.Debug
 import com.android.build.gradle.AppExtension
 import org.gradle.api.JavaVersion
 
-val ProjectExtension.Companion.AndroidApp
+val PluginExtension.Companion.AndroidApp
     get() = extension<AppExtension>("android") {
         defaultConfig {
             applicationId = AppConfig.applicationId
