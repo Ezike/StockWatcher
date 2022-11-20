@@ -2,12 +2,13 @@ plugins {
     androidApp
 }
 
-android.viewBinding.isEnabled = true
+android {
+    namespace = "com.ezike.tobenna.stockwatcher"
+    viewBinding.isEnabled = true
+}
 
 dependencies {
-    implementation(
-        project(Project.libStockPrice)
-    )
+    implementation(project(Project.libStockPrice))
     implementation(
         Library.coroutines,
         Library.viewModel,

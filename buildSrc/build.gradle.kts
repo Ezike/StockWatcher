@@ -65,7 +65,7 @@ object Plugin {
 
     object Version {
         const val kotlin: String = "1.7.20"
-        const val androidGradle = "7.3.0"
+        const val androidGradle = "7.3.1"
         const val daggerHilt = "2.44"
         const val ktlint = "10.2.1"
     }

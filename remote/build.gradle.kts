@@ -1,12 +1,14 @@
 plugins {
     androidLib
 }
-
-android.defaultConfig.buildConfigField(
-    type = "String",
-    name = "SOCKET_ADDRESS",
-    value = "\"ws://46.101.236.188:8080/\""
-)
+android {
+    namespace = "com.ezike.tobenna.remote"
+    defaultConfig.buildConfigField(
+        type = "String",
+        name = "SOCKET_ADDRESS",
+        value = "\"ws://46.101.236.188:8080/\""
+    )
+}
 
 dependencies {
     implementation(
