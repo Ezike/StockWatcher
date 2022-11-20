@@ -6,17 +6,17 @@ import javax.inject.Inject
 internal class InMemoryCache @Inject constructor(
     private val mapper: CacheModelMapper,
     private val store: Store
-) : StockDataCache, Store by store {
+) : StockDataCache {
 
     override suspend fun data(): List<StockData> =
-        getData { data -> data.values.map(mapper::toStockData) }
+        store.getData { data -> data.values.map(mapper::toStockData) }
 
     override suspend fun findById(
         id: String
-    ): CacheModel? = getData { map -> map[id] }
+    ): CacheModel? = store.getData { map -> map[id] }
 
     override suspend fun insert(cacheModel: CacheModel) {
-        save(
+        store.save(
             id = cacheModel.id,
             saver = fun(model: CacheModel) = model.copy(
                 price = cacheModel.price,

@@ -6,7 +6,7 @@ import com.ezike.tobenna.lib_stock_price.domain.model.StockData
 import com.ezike.tobenna.lib_stock_price.domain.usecase.ObserveStockData
 import com.ezike.tobenna.lib_stock_price.domain.usecase.SubscribeStock
 import com.ezike.tobenna.lib_stock_price.domain.usecase.UnsubscribeStock
-import com.ezike.tobenna.stockwatcher.model.DataUpdateState
+import com.ezike.tobenna.stockwatcher.model.ConnectionState
 import com.ezike.tobenna.stockwatcher.model.PercentageState
 import com.ezike.tobenna.stockwatcher.model.StockModel
 import com.ezike.tobenna.stockwatcher.model.ViewState
@@ -42,8 +42,7 @@ internal class MainViewModelTest {
         }
 
         val stateProvider = mock<ViewStateProvider> {
-            on { initialViewState } doReturn ViewState(
-                data = listOf(
+            on { initialStockModel } doReturn listOf(
                     StockModel(
                         name = "TRIVAGO",
                         price = "--",
@@ -53,17 +52,15 @@ internal class MainViewModelTest {
                             icon = 9,
                             textColor = 89
                         )
-                    )
                 )
             )
-            on { initialLiveState } doReturn DataUpdateState(
+            on { initialConnectionState } doReturn ConnectionState(
                 title = StringLiteral("Connecting ..."),
                 icon = 2,
-                showLiveBanner = true,
-                showError = false
+                isError = false
             )
             on {
-                createState(
+                createStockModel(
                     listOf(
                         StockData(
                             name = "NETFLIX",
@@ -73,8 +70,7 @@ internal class MainViewModelTest {
                         )
                     )
                 )
-            } doReturn ViewState(
-                data = listOf(
+            } doReturn  listOf(
                     StockModel(
                         name = "NETFLIX", price = "2333.55 $",
                         percentState = PercentageState(
@@ -85,20 +81,17 @@ internal class MainViewModelTest {
                         )
                     )
                 )
-            )
-            on { dataState() } doReturn DataUpdateState(
+            on { connectedState() } doReturn ConnectionState(
                 title = StringLiteral("Live"),
                 icon = 2,
-                showLiveBanner = true,
-                showError = false
+                isError = false
             )
             on {
-                pausedState(EventData(time = 3L, isError = true))
-            } doReturn DataUpdateState(
+                disconnectedState(EventData(time = 3L, isError = true))
+            } doReturn ConnectionState(
                 title = StringLiteral("Last updated: 2 mins ago"),
                 icon = 2,
-                showLiveBanner = true,
-                showError = true
+                isError = true
             )
         }
 
@@ -108,7 +101,7 @@ internal class MainViewModelTest {
         )
 
         // when
-        val state = mainViewModel.stocks
+        val state = mainViewModel.state
 
         // then
         state.test {
@@ -124,6 +117,11 @@ internal class MainViewModelTest {
                                 textColor = 34
                             )
                         )
+                    ),
+                    ConnectionState(
+                        title = StringLiteral("Connecting ..."),
+                        icon = 2,
+                        isError = false
                     )
                 ),
                 awaitItem()

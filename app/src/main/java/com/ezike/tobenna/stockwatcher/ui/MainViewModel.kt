@@ -6,10 +6,12 @@ import com.ezike.tobenna.lib_stock_price.domain.usecase.ObserveStockData
 import com.ezike.tobenna.lib_stock_price.domain.usecase.SubscribeStock
 import com.ezike.tobenna.lib_stock_price.domain.usecase.UnsubscribeStock
 import com.ezike.tobenna.stockwatcher.delayAfter
+import com.ezike.tobenna.stockwatcher.model.ViewState
 import com.ezike.tobenna.stockwatcher.provider.ViewStateProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,11 +24,14 @@ class MainViewModel @Inject constructor(
     private val stateProvider: ViewStateProvider
 ) : ViewModel() {
 
-    private val dataUpdateFlow = MutableStateFlow(stateProvider.initialLiveState)
-    private val stockData = MutableStateFlow(stateProvider.initialViewState)
+    private val stockData = MutableStateFlow(stateProvider.initialStockModel)
+    private val connectionState = MutableStateFlow(stateProvider.initialConnectionState)
 
-    val stocks get() = stockData.asStateFlow()
-    val liveUpdate get() = dataUpdateFlow.asStateFlow()
+    val state = combine(
+        stockData,
+        connectionState,
+        ::ViewState
+    ).distinctUntilChanged()
 
     init {
         subscribeToStocks()
@@ -43,16 +48,16 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             observeStockData.stockData
                 .delayAfter(emissionCount = EMISSION_COUNT, delayMillis = DELAY_MILLIS)
-                .map(stateProvider::createState)
+                .map(stateProvider::createStockModel)
                 .collect { state ->
                     stockData.emit(state)
-                    dataUpdateFlow.emit(stateProvider.dataState())
+                    connectionState.emit(stateProvider.connectedState())
                 }
         }
         viewModelScope.launch {
-            observeStockData.dataState
-                .map(stateProvider::pausedState)
-                .collect(dataUpdateFlow::emit)
+            observeStockData.connectionState
+                .map(stateProvider::disconnectedState)
+                .collect(connectionState::emit)
         }
     }
 
@@ -62,7 +67,7 @@ class MainViewModel @Inject constructor(
     }
 
     private companion object {
-        const val EMISSION_COUNT = 5
+        const val EMISSION_COUNT = 10
         const val DELAY_MILLIS = 3000L
     }
 }

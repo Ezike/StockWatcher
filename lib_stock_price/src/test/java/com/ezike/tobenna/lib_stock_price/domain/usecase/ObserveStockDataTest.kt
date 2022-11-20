@@ -84,7 +84,7 @@ internal class ObserveStockDataTest {
         )
 
         // when
-        val response = observeStockData.dataState
+        val response = observeStockData.connectionState
 
         // then
         response.test {

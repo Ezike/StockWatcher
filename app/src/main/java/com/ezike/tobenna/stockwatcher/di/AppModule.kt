@@ -11,8 +11,7 @@ import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Locale
 
-@InstallIn(SingletonComponent::class)
-@Module
+@[Module InstallIn(SingletonComponent::class)]
 object AppModule {
 
     @Provides

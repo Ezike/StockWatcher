@@ -28,13 +28,13 @@ data class PercentageState(
     }
 }
 
-data class DataUpdateState(
+data class ConnectionState(
     val title: AppString,
     @DrawableRes val icon: Int,
-    val showLiveBanner: Boolean,
-    val showError: Boolean
+    val isError: Boolean
 )
 
 data class ViewState(
-    val data: List<StockModel>
+    val data: List<StockModel>,
+    val connectionState: ConnectionState
 )

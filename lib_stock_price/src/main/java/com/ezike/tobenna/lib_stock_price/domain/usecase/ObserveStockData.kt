@@ -36,7 +36,7 @@ public class ObserveStockData @Inject constructor(
     public val stockData: Flow<List<StockData>>
         get() = response.filterIsInstance<StockResponse.Data>().map { it.stockList }
 
-    public val dataState: Flow<EventData>
+    public val connectionState: Flow<EventData>
         get() = eventHandler.handle(
             data = response,
             coroutineScope = coroutineScope

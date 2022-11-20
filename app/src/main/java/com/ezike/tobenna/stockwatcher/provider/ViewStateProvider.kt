@@ -7,8 +7,8 @@ import com.ezike.tobenna.stockwatcher.ParamString
 import com.ezike.tobenna.stockwatcher.R
 import com.ezike.tobenna.stockwatcher.StringResource
 import com.ezike.tobenna.stockwatcher.mapper.StockDataMapper
-import com.ezike.tobenna.stockwatcher.model.DataUpdateState
-import com.ezike.tobenna.stockwatcher.model.ViewState
+import com.ezike.tobenna.stockwatcher.model.ConnectionState
+import com.ezike.tobenna.stockwatcher.model.StockModel
 import javax.inject.Inject
 
 class ViewStateProvider @Inject constructor(
@@ -16,40 +16,34 @@ class ViewStateProvider @Inject constructor(
     private val elapsedTimeProvider: ElapsedTimeProvider,
     private val initialStateProvider: InitialStateProvider
 ) {
-    val initialViewState: ViewState
+    val initialStockModel: List<StockModel>
         get() = initialStateProvider.viewState()
 
-    val initialLiveState: DataUpdateState
-        get() = initialStateProvider.dataUpdateState()
+    val initialConnectionState: ConnectionState
+        get() = initialStateProvider.connectionState()
 
-    fun createState(
+    fun createStockModel(
         stockData: List<StockData>
-    ): ViewState {
-        val stockList = stockModelMapper.toStockModel(stockData)
-        return ViewState(data = stockList)
-    }
+    ): List<StockModel> = stockModelMapper.toStockModel(stockData)
 
-    fun dataState() =
-        DataUpdateState(
-            title = StringResource(R.string.live_updates),
-            icon = R.drawable.success,
-            showLiveBanner = true,
-            showError = false
-        )
+    fun connectedState() = ConnectionState(
+        title = StringResource(R.string.live_updates),
+        icon = R.drawable.success,
+        isError = false
+    )
 
-    fun pausedState(data: EventData): DataUpdateState {
+    fun disconnectedState(data: EventData): ConnectionState {
         val icon = if (data.isError) {
             R.drawable.error
         } else R.drawable.offline
 
-        return DataUpdateState(
+        return ConnectionState(
             title = ParamString(
                 R.string.last_updated_at,
                 elapsedTimeProvider.elapsedTime(data.time)
             ),
             icon = icon,
-            showLiveBanner = true,
-            showError = data.isError
+            isError = data.isError
         )
     }
 }
