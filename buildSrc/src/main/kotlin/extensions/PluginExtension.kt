@@ -16,8 +16,8 @@ interface PluginExtension {
 
 val PluginExtension.Companion.Java
     get() = extension<JavaPluginExtension>("java") {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
 val PluginExtension.Companion.Kotlin
@@ -31,9 +31,14 @@ val PluginExtension.Companion.AndroidLib
         PluginExtension.KotlinJvmExtension.config(
             (this as ExtensionAware).extensions
         )
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
+        }
     }
 
 val PluginExtension.Companion.KotlinJvmExtension
     get() = extension<KotlinJvmOptions>("kotlinOptions") {
         freeCompilerArgs += "-Xexplicit-api=strict"
+        jvmTarget = "17"
     }

@@ -4,18 +4,11 @@ plugins {
     ktlint
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
 subprojects project@{
     applyKtlint
     tasks.withType<KotlinCompile>().configureEach {
         with(kotlinOptions) {
-            jvmTarget = JavaVersion.VERSION_11.toString()
+            jvmTarget = JavaVersion.VERSION_17.toString()
             freeCompilerArgs += "-Xuse-experimental=" +
                 "kotlin.Experimental," +
                 "kotlinx.coroutines.ExperimentalCoroutinesApi," +

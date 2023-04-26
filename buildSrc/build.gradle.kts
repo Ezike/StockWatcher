@@ -40,7 +40,8 @@ gradlePlugin {
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = Plugin.Version.kotlin
+    languageVersion = "1.8"
+    jvmTarget = "17"
 }
 
 dependencies {
@@ -64,10 +65,10 @@ object Plugin {
     const val ktlintPlugin: String = "ktlint"
 
     object Version {
-        const val kotlin: String = "1.7.20"
-        const val androidGradle = "7.3.1"
-        const val daggerHilt = "2.44"
-        const val ktlint = "10.2.1"
+        const val kotlin: String = "1.8.0"
+        const val androidGradle = "8.0.0"
+        const val daggerHilt = "2.45"
+        const val ktlint = "11.3.2"
     }
 
     const val kotlin: String = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Version.kotlin}"

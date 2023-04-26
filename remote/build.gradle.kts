@@ -1,13 +1,27 @@
+import com.android.build.api.variant.BuildConfigField
+
 plugins {
     androidLib
 }
+
 android {
     namespace = "com.ezike.tobenna.remote"
-    defaultConfig.buildConfigField(
-        type = "String",
-        name = "SOCKET_ADDRESS",
-        value = "\"ws://46.101.236.188:8080/\""
-    )
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+androidComponents {
+    onVariants {
+        it.buildConfigFields.put(
+            /* key = */ "SOCKET_ADDRESS",
+            /* value = */ BuildConfigField(
+                type = "String",
+                value = "\"ws://46.101.236.188:8080/\"",
+                comment = null,
+            )
+        )
+    }
 }
 
 dependencies {
