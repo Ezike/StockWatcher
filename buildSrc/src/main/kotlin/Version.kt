@@ -13,10 +13,10 @@ object Version {
     const val activity: String = "1.7.1"
     const val lifecycle: String = "2.6.1"
 
-    const val coroutines: String = "1.7.0-RC"
+    const val coroutines: String = "1.7.2"
 
-    const val material: String = "1.9.0-rc01"
-    const val daggerHilt: String = "2.45"
+    const val material: String = "1.9.0"
+    const val daggerHilt: String = "2.47"
 
     const val okhttp: String = "4.9.3"
     const val moshi: String = "1.14.0"
